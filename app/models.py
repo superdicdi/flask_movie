@@ -1,14 +1,11 @@
 from datetime import datetime
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
+from werkzeug.security import check_password_hash
+
+from app import db
 
 __author__ = "TuDi"
 __date__ = "2018/3/29 下午11:43"
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:123456@127.0.0.1:3306/movie?charset=utf8"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-db = SQLAlchemy(app)
 
 
 class User(db.Model):
@@ -31,6 +28,9 @@ class User(db.Model):
 
     def __repr__(self):
         return "<User %r>" % self.name
+
+    def check_pwd(self, pwd):
+        return check_password_hash(self.pwd, pwd)
 
 
 class UserLog(db.Model):
@@ -208,7 +208,8 @@ class OpLog(db.Model):
     def __repr__(self):
         return "<OpLog %r>" % self.id
 
-if __name__ == '__main__':
+
+# if __name__ == '__main__':
     # db.create_all()
     # role = Role(
     #     name="超级管理员",
@@ -216,12 +217,13 @@ if __name__ == '__main__':
     # )
     # db.session.add(role)
     # db.session.commit()
-    from werkzeug.security import generate_password_hash
-    admin = Admin(
-        name="imooc_movie",
-        pwd=generate_password_hash("imooc_movie"),
-        is_super=0,
-        role_id=1
-    )
-    db.session.add(admin)
-    db.session.commit()
+    # from werkzeug.security import generate_password_hash
+    #
+    # admin = Admin(
+    #     name="imooc_movie",
+    #     pwd=generate_password_hash("imooc_movie"),
+    #     is_super=0,
+    #     role_id=1
+    # )
+    # db.session.add(admin)
+    # db.session.commit()
