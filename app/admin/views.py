@@ -1,14 +1,21 @@
+import os
+import uuid
 from functools import wraps
 
-from app import db
+from datetime import datetime
+
+from werkzeug.utils import secure_filename
+
+from app import db, app
 from app.admin import admin
 from flask import render_template, redirect, url_for, flash, session, request
 
-from app.admin.forms import LoginForm, Tagform
-from app.models import Admin, Tag
+from app.admin.forms import LoginForm, Tagform, Movieform
+from app.models import Admin, Tag, Movie
 
 __author__ = "TuDi"
 __date__ = "2018/3/29 下午11:44"
+
 
 def user_login(f):
     @wraps(f)
@@ -16,7 +23,14 @@ def user_login(f):
         if "admin" not in session or session["admin"] is None:
             return redirect(url_for("admin.login", next=request.url))
         return f(*args, **kwargs)
+
     return login_req
+
+
+def change_filename(file_name):
+    info = os.path.splitext(file_name)
+    return datetime.now().strftime("%Y%m%d%H%M%S") + str(uuid.uuid4().hex) + info[-1]
+
 
 @admin.route("/")
 @user_login
@@ -110,16 +124,114 @@ def tag_edit(id=1):
     return render_template("admin/tag_edit.html", form=form, tag=tag)
 
 
-@admin.route("/movie/add/")
+@admin.route("/movie/add/", methods=["GET", "POST"])
 @user_login
 def movie_add():
-    return render_template("admin/movie_add.html")
+    form = Movieform()
+
+    if form.validate_on_submit():
+        data = form.data
+
+        file_url = secure_filename(form.url.data.filename)
+        logo_url = secure_filename(form.logo.data.filename)
+        url = change_filename(file_url)
+        logo = change_filename(logo_url)
+        if not os.path.exists(app.config["UP_DIR"]):
+            os.makedirs(app.config["UP_DIR"])
+
+        form.url.data.save(app.config["UP_DIR"] + url)
+        form.logo.data.save(app.config["UP_DIR"] + logo)
+
+        movie = Movie(
+            title=data["title"],
+            url=url,
+            info=data["info"],
+            logo=logo,
+            star=int(data["star"]),
+            play_num=0,
+            comment_num=0,
+            tag_id=int(data["tag_id"]),
+            area=data["area"],
+            release_time=data["release_time"],
+            length=data["length"]
+        )
+        db.session.add(movie)
+        db.session.commit()
+        flash("电影添加成功", "ok")
+        return redirect(url_for("admin.movie_add"))
+    return render_template("admin/movie_add.html", form=form)
 
 
-@admin.route("/movie/list/")
+@admin.route("/movie/list/<int:page>/", methods=["GET"])
 @user_login
-def movie_list():
-    return render_template("admin/movie_list.html")
+def movie_list(page=1):
+    form = Movieform()
+    page_data = Movie.query.order_by(
+        Movie.add_time.desc()
+    ).paginate(page=page, per_page=1)
+    return render_template("admin/movie_list.html", form=form, page_data=page_data)
+
+
+@admin.route("/movie/edit/<int:id>/", methods=["GET", "POST"])
+@user_login
+def movie_edit(id=1):
+    form = Movieform()
+    form.url.validators = []
+    form.logo.validators = []
+    movie = Movie.query.get_or_404(id)
+    if request.method == "GET":
+        form.title.data = movie.title
+        form.url.data = movie.url  # 为什么无效？
+        form.info.data = movie.info
+
+        form.logo.data = movie.logo  # 为什么无效？
+        form.star.data = movie.star
+        form.tag_id.data = movie.tag_id
+
+        form.area.data = movie.area
+        form.release_time.data = movie.release_time
+        form.length.data = movie.length
+
+    if form.validate_on_submit():
+        data = form.data
+        record = Movie.query.filter_by(title=data["title"]).count()
+        if movie.title != data["title"].strip() and record:
+            flash("名称已经存在", "err")
+            return redirect(url_for("admin.movie_edit", id=id))
+        if not os.path.exists(app.config["UP_DIR"]):
+            os.makedirs(app.config["UP_DIR"])
+        if hasattr(form.url.data, "filename"):
+            file = secure_filename(form.url.data.filename)
+            movie.url = change_filename(file)
+            form.url.data.save(app.config["UP_DIR"] + movie.url)
+
+        if hasattr(form.logo.data, "filename"):
+            file = secure_filename(form.logo.data.filename)
+            movie.logo = change_filename(file)
+            form.logo.data.save(app.config["UP_DIR"] + movie.logo)
+
+        movie.title = data["title"]
+        movie.info = data["info"]
+        movie.star = data["star"]
+        movie.tag_id = data["tag_id"]
+        movie.area = data["area"]
+        movie.release_time = data["release_time"]
+        movie.length = data["length"]
+        db.session.add(movie)
+        db.session.commit()
+        flash("电影修改成功", "ok")
+        return redirect(url_for("admin.movie_edit", id=id))
+    return render_template("admin/movie_edit.html", form=form, movie=movie)
+
+
+@admin.route("/movie/del/<int:id>/")
+@user_login
+def movie_del(id=1):
+    movie = Movie.query.filter_by(id=id).first_or_404()
+    db.session.delete(movie)
+    db.session.commit()
+    flash("删除成功", "ok")
+    return redirect(url_for("admin.movie_list", page=1))
 
 
 @admin.route("/preview/add/")

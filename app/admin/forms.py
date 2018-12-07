@@ -96,7 +96,8 @@ class Movieform(FlaskForm):
         ],
         description="片名",
         render_kw={
-            "class": "form-control", "id": "input_title", "placeholder": "请输入片名！"}
+            "class": "form-control", "id": "input_title", "placeholder": "请输入片名！",
+            "required": False}
     )
     url = FileField(
         label="文件",
@@ -104,6 +105,9 @@ class Movieform(FlaskForm):
             DataRequired("请上传文件")
         ],
         description="文件",
+        render_kw={
+            "required": False
+        }
     )
     info = TextAreaField(
         label="简介",
@@ -112,7 +116,8 @@ class Movieform(FlaskForm):
         ],
         description="简介",
         render_kw={
-            "class": "form-control", "rows": "10"}
+            "class": "form-control", "rows": "10",
+            "required": False}
     )
     logo = FileField(
         label="封面",
@@ -120,6 +125,9 @@ class Movieform(FlaskForm):
             DataRequired("请上传封面")
         ],
         description="封面",
+        render_kw={
+            "required": False
+        }
     )
     star = SelectField(
         label="星级",
@@ -130,7 +138,8 @@ class Movieform(FlaskForm):
         choices=[(1, "1星"), (2, "2星"), (3, "3星"), (4, "4星"), (5, "5星")],
         description="星级",
         render_kw={
-            "class": "form-control"
+            "class": "form-control",
+            "required": False
         }
     )
     tag_id = SelectField(
@@ -142,7 +151,8 @@ class Movieform(FlaskForm):
         choices=[(v.id, v.name) for v in tags],
         description="标签",
         render_kw={
-            "class": "form-control"
+            "class": "form-control",
+            "required": False
         }
     )
     area = StringField(
@@ -152,7 +162,8 @@ class Movieform(FlaskForm):
         ],
         description="地区",
         render_kw={
-            "class": "form-control", "placeholder": "请输入地区！"}
+            "class": "form-control", "placeholder": "请输入地区！",
+            "required": False}
     )
     length = StringField(
         label="片长",
@@ -161,7 +172,8 @@ class Movieform(FlaskForm):
         ],
         description="片长",
         render_kw={
-            "class": "form-control", "placeholder": "请输入片长！"}
+            "class": "form-control", "placeholder": "请输入片长！",
+            "required": False}
     )
     release_time = StringField(
         label="上映时间",
@@ -170,7 +182,8 @@ class Movieform(FlaskForm):
         ],
         description="上映时间",
         render_kw={
-            "class": "form-control", "id": "input_release_time", "placeholder": "请选择上映时间！"}
+            "class": "form-control", "id": "input_release_time", "placeholder": "请选择上映时间！",
+            "required": False}
     )
     submit = SubmitField(
         '添加',

@@ -34,7 +34,7 @@
                         {% endfor %}
                         <div class="form-group">
                             <label for="input_title">{{form.title.label}}</label>
-                            {{form.title(value=movie.title)}}
+                            {{form.title}}
                             <!--下面是报错信息-->
                             {% for err in form.title.errors %}
                             <div class="col-md-12">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input_url">{{form.url.lable}}</label>
-                            {{form.url}}
+                            {{form.url(value=movie.url)}}
                             {% for err in form.url.errors %}
                             <div class="col-md-12">
                                 <font style="color: red">{{err}}</font>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input_star">{{form.star.label}}</label>
-                            {{form.star(value=movie.star)}}
+                            {{form.star}}
                             {% for err in form.star.errors %}
                             <div class="col-md-12">
                                 <font style="color: red">{{err}}</font>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input_tag_id">{{form.tag_id.label}}</label>
-                            {{form.tag_id(value=movie.tag_id)}}
+                            {{form.tag_id}}
                             {% for err in form.tag_id.errors %}
                             <div class="col-md-12">
                                 <font style="color: red">{{err}}</font>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input_area">{{form.area.label}}</label>
-                            {{form.area(value=movie.area)}}
+                            {{form.area}}
                             {% for err in form.area.errors %}
                             <div class="col-md-12">
                                 <font style="color: red">{{err}}</font>
@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input_length">{{form.length.label}}</label>
-                            {{form.length(value=movie.length)}}
+                            {{form.length}}
                             {% for err in form.length.errors %}
                             <div class="col-md-12">
                                 <font style="color: red">{{err}}</font>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="form-group">
                             <label for="input_release_time">{{form.release_time.label}}</label>
-                            {{form.release_time(value=movie.release_time)}}
+                            {{form.release_time}}
                             {% for err in form.release_time.errors %}
                             <div class="col-md-12">
                                 <font style="color: red">{{err}}</font>
