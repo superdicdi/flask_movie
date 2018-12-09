@@ -201,7 +201,8 @@ class PreviewForm(FlaskForm):
         ],
         description="预告标题",
         render_kw={
-            "class": "form-control", "id": "input_title", "placeholder": "请输入片名！"}
+            "class": "form-control", "id": "input_title", "placeholder": "请输入片名！", "required": False
+        }
     )
     logo = FileField(
         label="预告封面",
@@ -209,6 +210,9 @@ class PreviewForm(FlaskForm):
             DataRequired("请上传预告封面")
         ],
         description="预告封面",
+        render_kw={
+            "required": False
+        }
     )
     submit = SubmitField(
         '添加',
@@ -228,6 +232,7 @@ class PwdForm(FlaskForm):
         render_kw={
             "class": "form-control",
             "placeholder": "请输入旧密码",
+            "required": False
         }
     )
     new_pwd = PasswordField(
@@ -239,6 +244,7 @@ class PwdForm(FlaskForm):
         render_kw={
             "class": "form-control",
             "placeholder": "请输入新密码",
+            "required": False
         }
     )
     submit = SubmitField(

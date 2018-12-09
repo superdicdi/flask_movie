@@ -1,5 +1,5 @@
 {% extends "admin/admin.html" %}
-{#{% import "ui/admin_page.html" as pg %}#}
+{% import "ui/admin_page.html" as pg %}
 {% block content %}
 <!--内容-->
 <section class="content-header">
@@ -36,19 +36,19 @@
                             <th>登录时间</th>
                             <th>登录IP</th>
                         </tr>
-{#                        {% for i in page_data.items %}#}
-{#                        <tr>#}
-{#                            <td>{{i.id}}</td>#}
-{#                            <td>{{i.user.name}}</td>#}
-{#                            <td>{{i.addtime}}</td>#}
-{#                            <td>{{i.ip}}</td>#}
-{#                        </tr>#}
-{#                        {% endfor %}#}
+                        {% for i in page_data.items %}
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td>{{i.user.name}}</td>
+                            <td>{{i.add_time}}</td>
+                            <td>{{i.ip}}</td>
+                        </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div class="box-footer clearfix">
-{#                    {{pg.page(page_data, 'admin.userloginlog_list')}}#}
+                    {{pg.page(page_data, 'admin.userloginlog_list')}}
                 </div>
             </div>
         </div>

@@ -48,30 +48,30 @@
                                 <tr>
                                     <td class="td_bd">头像：</td>
                                     <td>
-{#                                        {% if user.face %}#}
-{#                                        <img src="{{url_for('static', filename='uploads/users/'+user.face)}}" style="width: 100px" class="img-responsive" alt="">#}
-{#                                        {% else %}#}
-{#                                        <img data-src="holder.js/50*50" style="width: 100px" class="img-responsive" alt="">#}
-{#                                        {% endif %}#}
+                                        {% if user.face %}
+                                        <img src="{{url_for('static', filename='uploads/users/'+user.face)}}" style="width: 100px" class="img-responsive" alt="">
+                                        {% else %}
+                                        <img data-src="holder.js/50*50" style="width: 100px" class="img-responsive" alt="">
+                                        {% endif %}
 
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="td_bd">注册时间：</td>
                                     <td>
-{#                                        {{user.addtime}}#}
+                                        {{user.addtime}}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="td_bd">唯一标志符：</td>
                                     <td>
-{#                                        {{user.uuid}}#}
+                                        {{user.uuid}}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="td_bd">个性简介：</td>
                                     <td>
-{#                                        {{user.info}}#}
+                                        {{user.info}}
                                     </td>
                                 </tr>
                                 </tbody>

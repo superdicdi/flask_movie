@@ -1,5 +1,5 @@
 {% extends "admin/admin.html" %}
-{#{% import "ui/admin_page.html" as pg %}#}
+{% import "ui/admin_page.html" as pg %}
 {% block content %}
 <!--内容-->
 <section class="content-header">
@@ -28,35 +28,35 @@
                     </div>
                 </div>
                 <div class="box-body box-comments">
-{#                    {% for msg in get_flashed_messages(category_filter=["ok"]) %}#}
-{#                    <div class="alert alert-success alert-dismissible">#}
-{#                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>#}
-{#                        <h4><i class="icon fa fa-check"></i>操作成功</h4>#}
-{#                        {{msg}}#}
-{#                    </div>#}
-{#                    {% endfor %}#}
-{#                    {% for i in page_data.items %}#}
-{#                    <div class="box-comment">#}
-{#                        <img class="img-circle img-sm"#}
-{#                             src="{{url_for('static', filename='uploads/users'+i.user.face)}}" alt="User Image">#}
-{#                        <div class="comment-text">#}
-{#                                    <span class="username">#}
-{#                                        <!--关联的用户的用户名-->#}
-{#                                        {{i.user.name}}#}
-{#                                        <span class="text-muted pull-right">#}
-{#                                            <i class="fa fa-calendar" aria-hidden="true"></i>#}
-{#                                            &nbsp;#}
-{#                                            {{i.addtime}}#}
-{#                                        </span>#}
-{#                                    </span>#}
-{#                            关于电影<a>《{{i.movie.title}}》</a>的评论：{{}}#}
-{#                            <br><a href="{{url_for('admin.comment_del', id=i.id)}}" class="label label-danger pull-right">删除</a>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    {% endfor %}#}
+                    {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i>操作成功</h4>
+                        {{msg}}
+                    </div>
+                    {% endfor %}
+                    {% for i in page_data.items %}
+                    <div class="box-comment">
+                        <img class="img-circle img-sm"
+                             src="{{url_for('static', filename='uploads/users/'+i.user.face)}}" alt="User Image">
+                        <div class="comment-text">
+                                    <span class="username">
+                                        <!--关联的用户的用户名-->
+                                        {{i.user.name}}
+                                        <span class="text-muted pull-right">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            &nbsp;
+                                            {{i.add_time}}
+                                        </span>
+                                    </span>
+                            关于电影<a>《{{i.movie.title}}》</a>的评论：{{i.content}}
+                            <br><a href="{{url_for('admin.comment_del', id=i.id)}}" class="label label-danger pull-right">删除</a>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
                 <div class="box-footer clearfix">
-{#                    {{pg.page(page_data, 'admin.comment_list')}}#}
+                    {{pg.page(page_data, 'admin.comment_list')}}
                 </div>
             </div>
         </div>
