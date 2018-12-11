@@ -10,7 +10,7 @@ from app.home import home
 from flask import render_template, redirect, url_for, flash, request, session
 
 from app.home.forms import RegisterForm, LoginForm, UserDetailForm, PwdForm
-from app.models import User, UserLog
+from app.models import User, UserLog, Preview, Tag, Movie
 from werkzeug.security import generate_password_hash
 
 __author__ = "TuDi"
@@ -33,14 +33,67 @@ def user_login(f):
     return login_req
 
 
-@home.route("/")
-def index():
-    return render_template("home/index.html")
+@home.route("/<int:page>/", methods=["GET"])
+def index(page=1):
+    tags = Tag.query.all()
+    page_data = Movie.query
+    tid = request.args.get("tid", 0)
+    if int(tid) != 0:
+        page_data = page_data.filter_by(tag_id=int(tid))
+
+    star = request.args.get("star", 0)
+    if int(star) != 0:
+        page_data = page_data.filter_by(star=int(star))
+
+    time = request.args.get("time", 0)
+    if int(time) != 0:
+        if int(time) == 1:
+            page_data = page_data.order_by(
+                Movie.release_time.desc()
+            )
+        else:
+            page_data = page_data.order_by(
+                Movie.release_time.asc()
+            )
+
+    play_num = request.args.get("pm", 0)
+    if int(play_num) != 0:
+        if int(play_num) == 1:
+            page_data = page_data.order_by(
+                Movie.play_num.desc()
+            )
+        else:
+            page_data = page_data.order_by(
+                Movie.play_num.asc()
+            )
+
+    comm_num = request.args.get("cm", 0)
+    if int(comm_num) != 0:
+        if int(comm_num) == 1:
+            page_data = page_data.order_by(
+                Movie.comment_num.desc()
+            )
+        else:
+            page_data = page_data.order_by(
+                Movie.comment_num.asc()
+            )
+
+    page_data = page_data.paginate(page=page, per_page=8)
+    p = dict(
+        tid=tid,
+        star=star,
+        time=time,
+        pm=play_num,
+        cm=comm_num,
+
+    )
+    return render_template("home/index.html", tags=tags, p=p, page_data=page_data)
 
 
 @home.route("/animation/")
 def animation():
-    return render_template("home/animation.html")
+    data = Preview.query.all()
+    return render_template("home/animation.html", data=data)
 
 
 @home.route("/login/", methods=["GET", "POST"])
@@ -178,11 +231,20 @@ def moviecol():
     return render_template("home/moviecol.html")
 
 
-@home.route("/search/")
-def search():
-    return render_template("home/search.html")
+@home.route("/search/<int:page>/", methods=["GET"])
+def search(page=1):
+    key = request.args.get("key", "")
+    movie_count = Movie.query.filter(
+        Movie.title.ilike("%" + key + "%")
+    ).count()
+
+    page_data = Movie.query.filter(
+        Movie.title.ilike("%" + key + "%")
+    ).paginate(page=page, per_page=3)
+    return render_template("home/search.html", page_data=page_data, key=key, movie_count=movie_count)
 
 
-@home.route("/play/")
-def play():
-    return render_template("home/play.html")
+@home.route("/play/<int:id>/")
+def play(id=1):
+    movie = Movie.query.join(Tag).filter(Tag.id == Movie.tag_id, Movie.id == id).first_or_404()
+    return render_template("home/play.html", movie=movie)

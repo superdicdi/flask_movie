@@ -112,8 +112,16 @@
         });
         $("#do_search").click(function () {
             var key = $("#key_movie").val();
-{#            location.href = "{{url_for('home.search', page=1)}}?key="+key;#}
+            location.href = "{{url_for('home.search', page=1)}}?key="+key;
         })
+        $('#key_movie').bind('keypress', function (event) {
+           if (event.keyCode == "13") {
+            $("#do_search").click();
+            return false;
+           }
+          })
+
+
     });
 
 </script>
