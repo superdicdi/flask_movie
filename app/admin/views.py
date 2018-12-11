@@ -107,12 +107,12 @@ def pwd():
     form = PwdForm()
     if form.validate_on_submit():
         data = form.data
-        admin = Admin.query.filter_by(name=session["admin"]).first()
-        admin.pwd = generate_password_hash(data["new_pwd"])
-        db.session.add(admin)
+        user = Admin.query.filter_by(name=session["admin"]).first()
+        user.pwd = generate_password_hash(data["new_pwd"])
+        db.session.add(user)
         db.session.commit()
         flash("修改密码成功, 请重新登录", "ok")
-        return redirect(url_for("admin.logout"))
+        return redirect(url_for("home.logout"))
     return render_template("admin/pwd.html", form=form)
 
 
