@@ -274,7 +274,7 @@ class Authform(FlaskForm):
         ],
         description="权限",
         render_kw={
-            "class": "form-control", "placeholder": "请输入权限名称！"}
+            "class": "form-control", "placeholder": "请输入权限名称！", "required": False}
     )
     url = StringField(
         label="权限地址",
@@ -283,7 +283,7 @@ class Authform(FlaskForm):
         ],
         description="权限地址",
         render_kw={
-            "class": "form-control", "placeholder": "请输入权限地址！"}
+            "class": "form-control", "placeholder": "请输入权限地址！", "required": False}
     )
     submit = SubmitField(
         '编辑',
@@ -301,7 +301,7 @@ class Roleform(FlaskForm):
         ],
         description="角色名称",
         render_kw={
-            "class": "form-control", "placeholder": "请输入角色名称！"}
+            "class": "form-control", "placeholder": "请输入角色名称！", "required": False}
     )
     auths = SelectMultipleField(
         label="权限列表",
@@ -312,7 +312,7 @@ class Roleform(FlaskForm):
         choices=[(v.id, v.name) for v in auth_list],
         description="权限列表",
         render_kw={
-            "class": "form-control"
+            "class": "form-control", "required": False
         }
     )
     submit = SubmitField(
@@ -333,6 +333,7 @@ class AdminForm(FlaskForm):
         render_kw={
             "class": "form-control",
             "placeholder": "请输入管理员名称",
+            "required": False
         }
     )
     pwd = PasswordField(
@@ -344,6 +345,7 @@ class AdminForm(FlaskForm):
         render_kw={
             "class": "form-control",
             "placeholder": "请输入管理员密码",
+            "required": False
         }
     )
     repwd = PasswordField(
@@ -356,6 +358,7 @@ class AdminForm(FlaskForm):
         render_kw={
             "class": "form-control",
             "placeholder": "请输入管理员重复密码",
+            "required": False
         }
     )
     role_id = SelectField(
@@ -364,6 +367,7 @@ class AdminForm(FlaskForm):
         choices=[(v.id, v.name) for v in role_list],
         render_kw={
             "class": "form-control",
+            "required": False
         }
     )
     submit = SubmitField(

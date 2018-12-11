@@ -51,6 +51,7 @@ class Tag(db.Model):
     """
     标签模型类
     """
+
     __tablename__ = "tag"
     id = db.Column(db.Integer, primary_key=True)  # 编号
     name = db.Column(db.String(100), unique=True)  # 标题

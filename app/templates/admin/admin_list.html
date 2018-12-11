@@ -1,5 +1,5 @@
 {% extends "admin/admin.html" %}
-{#{% import "ui/admin_page.html" as pg %}#}
+{% import "ui/admin_page.html" as pg %}
 {% block content %}
 <!--内容-->
 <section class="content-header">
@@ -12,13 +12,13 @@
 <section class="content" id="showcontent">
     <div class="row">
         <div class="col-md-12">
-{#            {% for msg in get_flashed_messages(category_filter=["ok"]) %}#}
-{#            <div class="alert alert-success alert-dismissible">#}
-{#                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>#}
-{#                <h4><i class="icon fa fa-check"></i>操作成功</h4>#}
-{#                {{msg}}#}
-{#            </div>#}
-{#            {% endfor %}#}
+            {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i>操作成功</h4>
+                {{msg}}
+            </div>
+            {% endfor %}
             <div class="box box-primary">
                 <div class="box-header">
                     <h3 class="box-title">管理员列表</h3>
@@ -44,24 +44,24 @@
                             <th>管理员角色</th>
                             <th>添加时间</th>
                         </tr>
-{#                        {% for i in page_data.items %}#}
-{#                        <tr>#}
-{#                            <td>{{i.id}}</td>#}
-{#                            <td>{{i.name}}</td>#}
-{#                            {% if i.is_super == 0 %}}#}
-{#                            <td>普通管理员</td>#}
-{#                            {% else %}#}
-{#                            <td>超级管理员</td>#}
-{#                            {% endif %}#}
-{#                            <td>{{i.role.name}}</td>#}
-{#                            <td>{{i.addtime}}</td>#}
-{#                        </tr>#}
-{#                        {% endfor %}#}
+                        {% for i in page_data.items %}
+                        <tr>
+                            <td>{{i.id}}</td>
+                            <td>{{i.name}}</td>
+                            {% if i.is_super == 0 %}
+                            <td>普通管理员</td>
+                            {% else %}
+                            <td>超级管理员</td>
+                            {% endif %}
+                            <td>{{i.role.name}}</td>
+                            <td>{{i.add_time}}</td>
+                        </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
                 <div class="box-footer clearfix">
-{#                    {{pg.page(page_data, 'admin.admin_list')}}#}
+                    {{pg.page(page_data, 'admin.admin_list')}}
                 </div>
             </div>
         </div>
