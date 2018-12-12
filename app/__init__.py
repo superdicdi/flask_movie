@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
-
+from flask.ext.redis import FlaskRedis
 
 __author__ = "TuDi"
 __date__ = "2018/3/29 下午11:43"
@@ -12,8 +12,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:123456@127.0.0.1:3
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config["UP_DIR"] = os.path.join(os.path.abspath(os.path.dirname(__file__)), "static/uploads/")
 app.config["SECRET_KEY"] = "12345678"
+app.config["REDIS_URL"] = "redis://@localhost:6379/0"
 app.debug = True
 db = SQLAlchemy(app)
+rd = FlaskRedis(app)
 
 from app.home import home
 from app.admin import admin

@@ -245,7 +245,8 @@ class CommentForm(FlaskForm):
         ],
         description="内容",
         render_kw={
-            "id": "input_content"
+            "id": "input_content",
+            "required": False
         }
     )
     submit = SubmitField(
